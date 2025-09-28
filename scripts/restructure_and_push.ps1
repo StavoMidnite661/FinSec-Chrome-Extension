@@ -68,7 +68,7 @@ if (Test-Path .\manifest.json) {
 
     $mf.content_scripts = @( @{ matches = @('<all_urls>'); js = @('src/content/content.js'); css = @('src/content/content.css') } )
 
-    $mf.oauth2 = @{ client_id='YOUR_CLIENT_ID.apps.googleusercontent.com'; scopes=@('openid','email','profile') }
+    $mf | Add-Member -MemberType NoteProperty -Name oauth2 -Value @{ client_id='YOUR_CLIENT_ID.apps.googleusercontent.com'; scopes=@('openid','email','profile') }
 
     $mf | ConvertTo-Json -Depth 20 | Out-File -FilePath manifest.json -Encoding utf8
     Write-Output "manifest.json updated (backup at $bak)."
