@@ -11,7 +11,19 @@ New-Item -ItemType Directory -Path .\src\icons -Force | Out-Null
 
 # 2) Move from SRC if present
 if (Test-Path .\SRC) {
-  Get-ChildItem .\SRC -Force | ForEach-Object { Move-Item -Path $_.FullName -Destination .\src\ -Force }
+  Get-ChildItem .\SRC -Force | ForEach-Object {
+    try {
+      $srcItem = $_.FullName
+      $dest = Join-Path -Path (Resolve-Path .\src).Path -ChildPath $_.Name
+      if (-not (Test-Path $dest)) {
+        Move-Item -LiteralPath $srcItem -Destination (Resolve-Path .\src).ProviderPath -Force -ErrorAction Stop
+      } else {
+        Write-Output "skipping existing destination: $dest"
+      }
+    } catch {
+      Write-Warning "move failed for $($srcItem): $_"
+    }
+  }
 }
 
 # 3) Move common root files (adjust names if different)
@@ -30,7 +42,16 @@ foreach ($k in $map.Keys) {
     Move-Item -Path $k -Destination $map[$k] -Force
   }
 }
-if (Test-Path .\icons) { Move-Item .\icons\* .\src\icons\ -Recurse -Force -ErrorAction SilentlyContinue }
+if (Test-Path .\icons) {
+  Get-ChildItem .\icons -Force | ForEach-Object {
+    $dest = ".\src\icons\$($_.Name)"
+    if (-not (Test-Path $dest)) {
+      Move-Item -LiteralPath $_.FullName -Destination ".\src\icons" -Force -ErrorAction SilentlyContinue
+    } else {
+      Write-Output "icon exists, skipping: $dest"
+    }
+  }
+}
 
 # 4) Update manifest.json safely
 if (Test-Path .\manifest.json) {
@@ -46,8 +67,8 @@ if (Test-Path .\manifest.json) {
     $mf.background.service_worker = 'src/background/background.js'
 
     if ($mf.content_scripts -ne $null -and $mf.content_scripts.Count -ge 1) {
-      if ($mf.content_scripts[0].js -eq $null) { $mf.content_scripts[0].js = @() }
-      if ($mf.content_scripts[0].css -eq $null) { $mf.content_scripts[0].css = @() }
+      if ($mf.content_scripts[0].psobject.Properties.Match('js') -eq $null) { $mf.content_scripts[0].js = @() }
+      if ($mf.content_scripts[0].psobject.Properties.Match('css') -eq $null) { $mf.content_scripts[0].css = @() }
       $mf.content_scripts[0].js[0] = 'src/content/content.js'
       $mf.content_scripts[0].css[0] = 'src/content/content.css'
     } else {
