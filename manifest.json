@@ -44,7 +44,7 @@
     "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://api.your-secure-backend.com;"
   },
   "oauth2": {
-    "client_id": "YOUR_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+    "client_id": "667355691357-8930o9lgpfilm11l8h3uuquvel62dqu1.apps.googleusercontent.com",
     "scopes": [
       "openid",
       "email",
