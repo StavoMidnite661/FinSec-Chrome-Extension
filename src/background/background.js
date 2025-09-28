@@ -145,7 +145,7 @@ async function getAuthTokenSecurely(interactive) {
   } catch (error) {
     console.error("getAuthToken failed:", error.message);
     throw new Error("Authentication failed. Please try logging in again.");
-  });
+  }
 }
 
 // Placeholder for data validation

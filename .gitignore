@@ -1,35 +1,11 @@
-# Node
-node_modules/
-npm-debug.log
-package-lock.json
-
-# Env / secrets
+﻿# Google client secrets and environment
+client_secret_*.json
+*.secret.json
 .env
-*.env
-client_secret*.json
-*credentials*.json
-*.pem
-*.key
 
-# VS Code
-.vscode/
-
-# OS
-Thumbs.db
-desktop.ini
-# IDE - General
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Build artifacts
-build/
-dist/
-
-# Node
+# Node / build
 node_modules/
-npm-debug.log
-yarn-error.log
-
-#-*- mode: gitignore -*-
+dist/
+build/
+.vscode/
+.DS_Store
