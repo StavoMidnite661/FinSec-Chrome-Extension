@@ -16,16 +16,37 @@ This Chrome Extension is the user-facing entry point into our ecosystem. It is d
 
 This separation ensures that no private keys or sensitive credentials are ever stored or handled on the client-side, providing a robust and secure model for users.
 
-## Installation & Use (Developer Guide)
+## Development
 
-To get started and test the extension, you can load it directly into your Chrome browser.
+To contribute to the development of the FinSec Chrome Extension, you'll need to set up a local development environment.
 
-1.  **Download:** Download this repository to your local machine as a `.zip` file and unzip it.
-2.  **Open Chrome:** Navigate to `chrome://extensions` in your Chrome browser.
-3.  **Enable Developer Mode:** Turn on the "Developer mode" switch in the top-right corner.
-4.  **Load Unpacked:** Click the "Load unpacked" button and select the unzipped project folder.
+### Prerequisites
 
-The FinSec extension icon will now appear in your browser toolbar, ready for use.
+*   [Node.js](https://nodejs.org/) (v18 or later recommended)
+*   [npm](https://www.npmjs.com/) (comes with Node.js)
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/StavoMidnite661/FinSec-Chrome-Extension.git
+    cd FinSec-Chrome-Extension
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+### Building the Extension
+
+To build the extension from the source code, run the following command:
+
+```bash
+npm run build
+```
+
+This will create a `dist` directory containing the packaged extension, ready to be loaded into Chrome.
 
 ## The Grand Vision: What's Next
 
