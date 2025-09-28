@@ -66,14 +66,11 @@ if (Test-Path .\manifest.json) {
     if ($mf.background -eq $null) { $mf | Add-Member -MemberType NoteProperty -Name background -Value @{} }
     $mf.background.service_worker = 'src/background/background.js'
 
-    if ($mf.content_scripts -ne $null -and $mf.content_scripts.Count -ge 1) {
-      if ($mf.content_scripts[0].psobject.Properties.Match('js') -eq $null) { $mf.content_scripts[0].js = @() }
-      if ($mf.content_scripts[0].psobject.Properties.Match('css') -eq $null) { $mf.content_scripts[0].css = @() }
-      $mf.content_scripts[0].js = @('src/content/content.js')
-      $mf.content_scripts[0].css = @('src/content/content.css')
-    } else {
-      $mf.content_scripts = @( @{ matches = @('<all_urls>'); js = @('src/content/content.js'); css = @('src/content/content.css') } )
-    }
+    Write-Output "Before content_scripts"
+    Write-Output ($mf | ConvertTo-Json -Depth 5)
+    $mf.content_scripts = @( @{ matches = @('<all_urls>'); js = @('src/content/content.js'); css = @('src/content/content.css') } )
+    Write-Output "After content_scripts"
+    Write-Output ($mf | ConvertTo-Json -Depth 5)
 
     if ($mf.oauth2 -eq $null) {
       $mf.oauth2 = @{ client_id='YOUR_CLIENT_ID.apps.googleusercontent.com'; scopes=@('openid','email','profile') }
